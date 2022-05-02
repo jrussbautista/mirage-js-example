@@ -4,7 +4,9 @@ import {
   hasMany,
   Model,
   RestSerializer,
+  Factory,
 } from 'miragejs';
+import { faker } from '@faker-js/faker';
 
 export default function () {
   createServer({
@@ -12,6 +14,11 @@ export default function () {
       reminder: RestSerializer.extend({
         include: ['list'],
         embed: true,
+      }),
+    },
+    factories: {
+      reminder: Factory.extend({
+        text: faker.lorem.sentence(),
       }),
     },
     models: {
@@ -23,9 +30,7 @@ export default function () {
       }),
     },
     seeds(server) {
-      server.create('reminder', { text: 'Walk the dog' });
-      server.create('reminder', { text: 'Take out the trash' });
-      server.create('reminder', { text: 'Work out' });
+      server.createList('reminder', 10);
 
       const homeList = server.create('list', { name: 'Home' });
       server.create('reminder', { list: homeList, text: 'Do taxes' });
