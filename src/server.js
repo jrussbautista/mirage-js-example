@@ -8,8 +8,9 @@ import {
 } from 'miragejs';
 import { faker } from '@faker-js/faker';
 
-export default function () {
+export default function (environment = 'development') {
   createServer({
+    environment,
     serializers: {
       reminder: RestSerializer.extend({
         include: ['list'],
